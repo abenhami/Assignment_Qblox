@@ -18,11 +18,10 @@ def snapshot(update: bool = False, clean: bool = True) -> dict:
     """
     snap = {"instruments": {}, "parameters": {}}
 
-    for ins_name, ins_ref in Instrument._all_instruments.items():
-        ref = ins_ref()
-        # Check for dead weakrefs
-        if ref is not None:
-            snap["instruments"][ins_name] = ref.snapshot(update=update)
+    for instrument in Instrument.__subclasses__():
+        if hasattr(instrument, "instance_list"):
+            for instance in instrument.instance_list:
+                snap["instruments"][instance.name] = instance.snapshot(update=update)
 
     if clean:
         exclude_keys = {
