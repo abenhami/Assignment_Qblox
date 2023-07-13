@@ -28,6 +28,9 @@ class MeasurementControl(Instrument):
         :attr:`.update_interval` time has elapsed when acquiring new data points, data
         is written to file (and the live monitoring detects updated)."""
 
+    def __call__(self):
+        return self
+
 
 class Device(Instrument):
     """A dummy instrument."""
@@ -38,3 +41,6 @@ class Device(Instrument):
         self.add_parameter(name="amp_0", unit="A", parameter_class=ManualParameter)
         self.add_parameter(name="amp_1", unit="A", parameter_class=ManualParameter)
         self.add_parameter(name="offset", unit="A", parameter_class=ManualParameter)
+
+    def __call__(self):
+        return self
