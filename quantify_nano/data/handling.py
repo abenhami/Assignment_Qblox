@@ -19,7 +19,7 @@ def snapshot(update: bool = False, clean: bool = True) -> dict:
     snap = {"instruments": {}, "parameters": {}}
 
     for ins_name, ins_ref in Instrument._all_instruments.items():
-        ref = ins_ref()
+        ref = ins_ref
         # Check for dead weakrefs
         if ref is not None:
             snap["instruments"][ins_name] = ref.snapshot(update=update)
