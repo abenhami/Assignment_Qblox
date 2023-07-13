@@ -2,6 +2,9 @@ from qcodes import Instrument
 
 from quantify_nano.utilities.general import delete_keys_from_dict
 
+def find_all_subclasses(cls):
+    subclasses = cls.__subclasses__()
+    return subclasses
 
 def snapshot(update: bool = False, clean: bool = True) -> dict:
     """
@@ -18,7 +21,7 @@ def snapshot(update: bool = False, clean: bool = True) -> dict:
     """
     snap = {"instruments": {}, "parameters": {}}
 
-    for instrument in Instrument.__subclasses__():
+    for instrument in find_all_subclasses(Instrument):
         if hasattr(instrument, "instance_list"):
             for instance in instrument.instance_list:
                 snap["instruments"][instance.name] = instance.snapshot(update=update)
